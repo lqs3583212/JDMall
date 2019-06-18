@@ -13,6 +13,6 @@ public class BaseActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
     public void tip(String tipstr) {
-        Toast.makeText(this, tipstr, Toast.LENGTH_SHORT);
+        Toast.makeText(this, tipstr, Toast.LENGTH_SHORT).show();
     }
 }

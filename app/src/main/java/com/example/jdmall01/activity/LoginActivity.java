@@ -9,8 +9,9 @@ import android.widget.Toast;
 import com.example.jdmall01.R;
 import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.controller.LoginController;
+import com.example.jdmall01.listener.IModuleChangeListener;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements IModuleChangeListener {
     private EditText mNameEt;
     private EditText mPwdEt;
     private LoginController mController;
@@ -23,6 +24,7 @@ public class LoginActivity extends BaseActivity {
         mNameEt = findViewById(R.id.name_et);
         mPwdEt = findViewById(R.id.pwd_et);
         mController = new LoginController();
+        mController.setIModuleChangeListener(this);
 
 
     }
@@ -39,4 +41,8 @@ public class LoginActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onModuleChanged(int action, Object... values) {
+
+    }
 }
