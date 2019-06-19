@@ -1,6 +1,15 @@
 package com.example.jdmall01.controller;
 
+import com.example.jdmall01.listener.IModuleChangeListener;
+
 public abstract class BaseController {
+
+    protected IModuleChangeListener mListener;
+
+    public void setIModuleChangeListener(IModuleChangeListener listener) {
+        mListener = listener;
+    }
+
     //一个页面可能有多个网络请求,用来区别网络请求
     // values 请求的数据
     public void sendAsyncMessage(final int action, final Object... values) {

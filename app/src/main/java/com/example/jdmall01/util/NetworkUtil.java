@@ -1,5 +1,8 @@
 package com.example.jdmall01.util;
 
+import android.util.Log;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +34,8 @@ public class NetworkUtil {
                 InputStream is = conn.getInputStream();
                 BufferedReader buf = new BufferedReader(new InputStreamReader(is));
                 return buf.readLine();
+            } else {
+                Log.e("Network", "NetworkError");
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
