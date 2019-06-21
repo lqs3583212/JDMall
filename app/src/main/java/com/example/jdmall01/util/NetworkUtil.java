@@ -34,8 +34,6 @@ public class NetworkUtil {
                 InputStream is = conn.getInputStream();
                 BufferedReader buf = new BufferedReader(new InputStreamReader(is));
                 return buf.readLine();
-            } else {
-                Log.e("Network", "NetworkError");
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -66,7 +64,10 @@ public class NetworkUtil {
             if (conn.getResponseCode()==200) {
                 InputStream is = conn.getInputStream();
                 BufferedReader buf = new BufferedReader(new InputStreamReader(is));
+                Log.e("Network", "ok");
                 return buf.readLine();
+            } else {
+                Log.e("Network", "error");
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();

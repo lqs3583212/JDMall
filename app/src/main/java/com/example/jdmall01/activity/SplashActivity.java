@@ -14,11 +14,18 @@ public class SplashActivity extends BaseActivity {
 
     private ImageView mIv;
 
+
+    @Override
+    protected void initUI() {
+        mIv = findViewById(R.id.logo_iv);
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        mIv = findViewById(R.id.logo_iv);
+        initUI();
         alphaAnim();
 
     }

@@ -1,10 +1,8 @@
 package com.example.jdmall01.activity;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -20,31 +18,35 @@ public class RegistActivity extends BaseActivity implements IModuleChangeListene
     private EditText mNameEt;
     private EditText mPwdEt;
     private  EditText mSurePwdEt;
-    private UserController mController;
-    protected Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what) {
-                case REGIST_ACTION_RESULT:
-                    Log.e("123", "123");
-                    handleRegistREsult((RResult)msg.obj);
-            }
+
+    @Override
+    protected void handleMessage(Message msg) {
+        super.handleMessage(msg);
+        switch (msg.what) {
+            case REGIST_ACTION_RESULT:
+                handleRegistREsult((RResult)msg.obj);
         }
-    };
+    }
 
     private  void handleRegistREsult(RResult resultBean) {
-        //如果注册成功 ---> 跳转到登录界面
-        //如果注册失败 ---> 提示失败原因
+
+        tip(resultBean.isSuccess()?"注册成功":"注册失败"+ resultBean.getErrorMsg());
         if (resultBean.isSuccess()) {
-            //跳转到登录界面
-            tip("注册成功");
             finish();
-        } else {
-            //提示原因
-            tip("注册失败"+ resultBean.getErrorMsg());
         }
 
+//
+//        //如果注册成功 ---> 跳转到登录界面
+//        //如果注册失败 ---> 提示失败原因
+//        if (resultBean.isSuccess()) {
+//            //跳转到登录界面
+//            tip("注册成功");
+//            finish();
+//        } else {
+//            //提示原因
+//            tip("注册失败"+ resultBean.getErrorMsg());
+//        }
+//
     }
 
 
@@ -58,13 +60,15 @@ public class RegistActivity extends BaseActivity implements IModuleChangeListene
         initUI();
     }
 
-    private void initController() {
+    @Override
+    protected void initController() {
         mController = new UserController();
         // 打开监听器,监听数据加载是否完毕
         mController.setIModuleChangeListener(this);
     }
 
-    private void initUI() {
+    @Override
+    protected void initUI() {
         mNameEt = findViewById(R.id.username_et);
         mPwdEt = findViewById(R.id.pwd_et);
         mSurePwdEt = findViewById(R.id.surepwd_et);
@@ -75,9 +79,7 @@ public class RegistActivity extends BaseActivity implements IModuleChangeListene
         String pwd = mPwdEt.getText().toString();
         String surepwd = mSurePwdEt.getText().toString();
 
-        if (TextUtils.isEmpty(name) ||
-            TextUtils.isEmpty(pwd) ||
-            TextUtils.isEmpty(surepwd)) {
+        if (ifValueIsEmpty(name, pwd, surepwd)) {
 
             tip("请输入完整信息");
             return;
@@ -90,10 +92,7 @@ public class RegistActivity extends BaseActivity implements IModuleChangeListene
 //        Log.e("123", "123");
     }
 
-    @Override
-    public void onModuleChanged(int action, Object... values) {
-        mHandler.obtainMessage(action, values[0]).sendToTarget();
-    }
+
 }
 
 
