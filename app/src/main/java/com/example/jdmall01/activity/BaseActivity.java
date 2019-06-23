@@ -39,7 +39,7 @@ public abstract class  BaseActivity extends Activity implements IModuleChangeLis
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            handleMessage(msg);
+            BaseActivity.this.handleMessage(msg);
         }
     };
 
