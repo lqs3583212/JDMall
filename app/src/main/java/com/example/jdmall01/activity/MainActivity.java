@@ -1,9 +1,10 @@
 package com.example.jdmall01.activity;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
+import com.example.jdmall01.ui.BottomBar;
 import com.example.jdmall01.R;
 import com.example.jdmall01.fragment.CategoryFragment;
 import com.example.jdmall01.fragment.HomeFragment;
@@ -26,16 +27,13 @@ public class MainActivity extends BaseActivity implements
 
     @Override
     protected void initUI() {
-        // 1.³õÊŒ»¯µ×²¿Àž
         mBottomBar =findViewById(R.id.bottom_bar);
         mBottomBar.setIBottomBarClickListener(this);
-        // ³õÊŒ»¯¶¥²¿µÄFragment
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         transaction.replace(R.id.top_bar, new HomeFragment());
         transaction.commit();
     }
 
-    //	ÇÐ»»Fragment
     @Override
     public void onItemClick(int action) {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
