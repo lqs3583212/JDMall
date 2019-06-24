@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.jdmall01.listener.IBottomBarClickListener;
 import com.example.jdmall01.ui.BottomBar;
 import com.example.jdmall01.R;
 import com.example.jdmall01.fragment.CategoryFragment;

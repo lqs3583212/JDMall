@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.example.jdmall01.R;
+import com.example.jdmall01.activity.MainActivity;
+import com.example.jdmall01.listener.IBottomBarClickListener;
 
 public class BottomBar extends LinearLayout implements View.OnClickListener {
 
@@ -17,6 +19,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
     private View mShopcarIv;
     private View mMyJDIv;
     private View mMyJDTv;
+    private IBottomBarClickListener mListener;
 
     public BottomBar(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -55,7 +58,11 @@ public class BottomBar extends LinearLayout implements View.OnClickListener {
         mMyJDIv.setSelected(v.getId()==R.id.frag_mine_ll);
         mMyJDTv.setSelected(v.getId()==R.id.frag_mine_ll);
         }
+
+    public void setIBottomBarClickListener(IBottomBarClickListener listener) {
+        mListener=listener;
     }
+}
 
 
 
