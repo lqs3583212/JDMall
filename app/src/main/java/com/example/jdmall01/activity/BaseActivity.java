@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.Window;
 import android.widget.Toast;
@@ -11,7 +12,7 @@ import com.example.jdmall01.controller.BaseController;
 import com.example.jdmall01.listener.IModuleChangeListener;
 
 
-public abstract class  BaseActivity extends Activity implements IModuleChangeListener {
+public abstract class  BaseActivity extends FragmentActivity implements IModuleChangeListener {
 
     protected BaseController mController;
     //初始化控制器
