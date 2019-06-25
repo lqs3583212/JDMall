@@ -1,5 +1,6 @@
 package com.example.jdmall01.controller;
 
+import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -8,6 +9,7 @@ import com.example.jdmall01.activity.LoginActivity;
 import com.example.jdmall01.bean.RResult;
 import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.constant.NetworkConst;
+import com.example.jdmall01.db.UserDao;
 import com.example.jdmall01.listener.IModuleChangeListener;
 import com.example.jdmall01.util.NetworkUtil;
 
@@ -16,6 +18,9 @@ import java.util.HashMap;
 public class UserController extends BaseController {
 
 
+    public UserController(Context c) {
+        super(c);
+    }
 
     @Override
     protected void handleMessage(int action, Object... values) {
@@ -36,10 +41,21 @@ public class UserController extends BaseController {
                 //代码重构
                 RResult loginOrRegist = loginOrRegist(NetworkConst.Regist_URL, (String) values[0], (String) values[1]);
                 mListener.onModuleChanged(IdiyMessage.LOGIN_ACTION_RESULT, loginOrRegist);
+                break;
 
+            case IdiyMessage.SAVE_USERTODB:
+                boolean saveUser2Db = saveUser2Db((String) values[0], (String) values[1]);
+                mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB , saveUser2Db);
+                break;
         }
     }
 
+
+    public boolean saveUser2Db(String name, String pwd) {
+        UserDao dao = new UserDao(mContext);
+        dao.clearUsers();
+        return dao.saveUser(name, pwd);
+    }
 
     //重构regist和login方法
     private RResult loginOrRegist(String url, String name, String pwd) {

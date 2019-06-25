@@ -61,7 +61,7 @@ public class RegistActivity extends BaseActivity implements IModuleChangeListene
 
     @Override
     protected void initController() {
-        mController = new UserController();
+        mController = new UserController(this);
         // 打开监听器,监听数据加载是否完毕
         mController.setIModuleChangeListener(this);
     }

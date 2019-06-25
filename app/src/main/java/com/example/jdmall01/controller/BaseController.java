@@ -1,13 +1,20 @@
 package com.example.jdmall01.controller;
 
+import android.content.Context;
+
 import com.example.jdmall01.listener.IModuleChangeListener;
 
 public abstract class BaseController {
 
     protected IModuleChangeListener mListener;
+    protected Context mContext;
 
     public void setIModuleChangeListener(IModuleChangeListener listener) {
         mListener = listener;
+    }
+
+    public BaseController(Context c) {
+        mContext = c;
     }
 
     //一个页面可能有多个网络请求,用来区别网络请求

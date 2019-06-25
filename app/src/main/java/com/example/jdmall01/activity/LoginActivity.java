@@ -24,7 +24,16 @@ public class LoginActivity extends BaseActivity {
             case IdiyMessage.LOGIN_ACTION_RESULT:
                 handlerLoginResult(msg);
                 break;
+            case IdiyMessage.SAVE_USERTODB_RESULT:
+                handleSaveUser2Db((boolean) msg.obj);
+                break;
         }
+    }
+
+    private void handleSaveUser2Db(boolean ifSuccess) {
+
+        ActivityUtil.start(this, MainActivity.class,true);
+
     }
 
     private void handlerLoginResult(Message msg) {
@@ -36,13 +45,19 @@ public class LoginActivity extends BaseActivity {
 //            ActivityUtil.start(this, MainActivity.class,true);
 //        }else tip("登陆失败" + rResult.getErrorMsg());
 
-        //1. 将账号密码保存到数据库
-        ActivityUtil.start(this, MainActivity.class,true);
+        //代码重构,将首页实现转移至保存用户名密码代码块
+        //1. 将账号密码保存到数据库 传递账号密码
+        //ActivityUtil.start(this, MainActivity.class,true);
+
+        String name = mNameEt.getText().toString();
+        String pwd = mPwdEt.getText().toString();
+        mController.sendAsyncMessage(IdiyMessage.SAVE_USERTODB, name, pwd);
+
     }
 
     @Override
     protected void initController() {
-        mController = new UserController();
+        mController = new UserController(this);
         mController.setIModuleChangeListener(this);
     }
 
