@@ -14,9 +14,10 @@ public class DbOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + DbConst.USER_TABLE+"("+
-                 DbConst._ID + "_id integer primary key autoincrement," +
-                DbConst._NAME + "text," + DbConst._PWD +"text);");
+        db.execSQL("create table " +DbConst.USER_TABLE+"(" +
+                DbConst._ID+" integer primary key autoincrement," +
+                DbConst._NAME+" text, " +
+                DbConst._PWD+" text);");
     }
 
     @Override

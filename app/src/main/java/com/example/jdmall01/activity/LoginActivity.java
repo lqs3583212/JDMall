@@ -3,6 +3,7 @@ package com.example.jdmall01.activity;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -26,13 +27,21 @@ public class LoginActivity extends BaseActivity {
                 break;
             case IdiyMessage.SAVE_USERTODB_RESULT:
                 handleSaveUser2Db((boolean) msg.obj);
+//                ActivityUtil.start(this, MainActivity.class,true);
                 break;
         }
     }
 
     private void handleSaveUser2Db(boolean ifSuccess) {
+        if (ifSuccess) {
 
-        ActivityUtil.start(this, MainActivity.class,true);
+            tip("密码已保存");
+            ActivityUtil.start(this, MainActivity.class,true);
+//            Log.d("debug","baocun");
+        } else {
+            tip("保存失败");
+        }
+
 
     }
 
@@ -47,7 +56,7 @@ public class LoginActivity extends BaseActivity {
 
         //代码重构,将首页实现转移至保存用户名密码代码块
         //1. 将账号密码保存到数据库 传递账号密码
-        //ActivityUtil.start(this, MainActivity.class,true);
+//        ActivityUtil.start(this, MainActivity.class,true);
 
         String name = mNameEt.getText().toString();
         String pwd = mPwdEt.getText().toString();

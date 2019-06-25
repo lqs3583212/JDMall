@@ -45,7 +45,7 @@ public class UserController extends BaseController {
 
             case IdiyMessage.SAVE_USERTODB:
                 boolean saveUser2Db = saveUser2Db((String) values[0], (String) values[1]);
-                mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB , saveUser2Db);
+                mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB_RESULT , saveUser2Db);
                 break;
         }
     }

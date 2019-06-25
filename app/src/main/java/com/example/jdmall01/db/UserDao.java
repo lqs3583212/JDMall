@@ -21,9 +21,10 @@ public class UserDao {
 
         SQLiteDatabase db = mHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DbConst.DB_NAME, name);
+        values.put(DbConst._NAME, name);
         values.put(DbConst._PWD, pwd);
         long insertId = db.insert(DbConst.USER_TABLE, null, values);
+
         return insertId != -1;
 
     }

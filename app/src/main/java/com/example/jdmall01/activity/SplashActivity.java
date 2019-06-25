@@ -50,7 +50,7 @@ public class SplashActivity extends BaseActivity {
 
             }
         });
-        anim.setDuration(3000);
+        anim.setDuration(1000);
         anim.setFillAfter(true);
         mIv.startAnimation(anim);
     }
