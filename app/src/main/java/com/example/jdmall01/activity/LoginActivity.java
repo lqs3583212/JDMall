@@ -36,6 +36,7 @@ public class LoginActivity extends BaseActivity {
 //            ActivityUtil.start(this, MainActivity.class,true);
 //        }else tip("登陆失败" + rResult.getErrorMsg());
 
+        //1. 将账号密码保存到数据库
         ActivityUtil.start(this, MainActivity.class,true);
     }
 
