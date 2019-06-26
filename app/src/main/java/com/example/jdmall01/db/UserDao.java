@@ -2,6 +2,7 @@ package com.example.jdmall01.db;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.example.jdmall01.constant.DbConst;
@@ -36,4 +37,32 @@ public class UserDao {
         db.delete(DbConst.USER_TABLE, null, null);
     }
 
+    public UserInfo aquireLastestUser() {
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        Cursor cursor = db.query(DbConst.USER_TABLE, 
+                new String[]{DbConst._NAME, DbConst._PWD}, 
+                null, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            String name= cursor.getString(0);
+            String pwd = cursor.getString(1);
+            return new UserInfo(name, pwd);
+        }
+        return null;
+    }
+
+    public class UserInfo {
+        public String name;
+        public String pwd;
+
+        public UserInfo(String name, String pwd) {
+            this.name = name;
+            this.pwd = pwd;
+        }
+
+
+
+        }
+    }
 }
+
+

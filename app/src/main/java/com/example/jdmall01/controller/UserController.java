@@ -7,6 +7,7 @@ import com.example.jdmall01.bean.RResult;
 import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.constant.NetworkConst;
 import com.example.jdmall01.db.UserDao;
+import com.example.jdmall01.util.AESUtils;
 import com.example.jdmall01.util.NetworkUtil;
 
 import java.util.HashMap;
@@ -14,8 +15,12 @@ import java.util.HashMap;
 public class UserController extends BaseController {
 
 
+private UserDao mUserDao = new UserDao(mContext);
+
     public UserController(Context c) {
         super(c);
+        mUserDao = new UserDao(mContext);
+
     }
 
     @Override
@@ -43,15 +48,29 @@ public class UserController extends BaseController {
                 boolean saveUser2Db = saveUser2Db((String) values[0], (String) values[1]);
                 mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB_RESULT , saveUser2Db);
                 break;
+            case IdiyMessage.GET_USER_ACTION:
+                UserDao.UserInfo userInfo =  aquireUser();
+                mListener.onModuleChanged(IdiyMessage.GET_USER_ACTION, userInfo);
+                break;
         }
     }
 
+    private UserDao.UserInfo aquireUser() {
+        return mUserDao.aquireLastestUser();
+    }
 
-    public boolean saveUser2Db(String name, String pwd) {
-        UserDao dao = new UserDao(mContext);
-        dao.clearUsers();
+    private boolean saveUser2Db(String name, String pwd) {
+        mUserDao.clearUsers();
+
         //可逆性加密 AES
-        return dao.saveUser(name, pwd);
+        try {
+            name = AESUtils.encrypt(name);
+            pwd = AESUtils.encrypt(pwd);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return mUserDao.saveUser(name, pwd);
     }
 
     //重构regist和login方法

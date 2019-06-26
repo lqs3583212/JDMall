@@ -9,14 +9,17 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AESUtils {
 
+    //密钥
 	public static final String KEY = "1234567891234567";
 
+	//加密算法
 	public static String encrypt(String src) throws Exception {
 		byte[] rawKey = getRawKey(KEY.getBytes());
 		byte[] result = encrypt(rawKey, src.getBytes());
 		return toHex(result);
 	}
 
+	//解密算法
 	public static String decrypt(String encrypted) throws Exception {
 		byte[] rawKey = getRawKey(KEY.getBytes());
 		byte[] enc = toByte(encrypted);
@@ -26,7 +29,7 @@ public class AESUtils {
 
 	private static byte[] getRawKey(byte[] seed) throws Exception {
 		KeyGenerator kgen = KeyGenerator.getInstance("AES");
-		// SHA1PRNG ǿ��������㷨, Ҫ����4.2���ϰ汾�ĵ��÷���
+
 		SecureRandom sr = null;
 //		if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.JELLY_BEAN) {
 //			sr = SecureRandom.getInstance("SHA1PRNG", "Crypto");

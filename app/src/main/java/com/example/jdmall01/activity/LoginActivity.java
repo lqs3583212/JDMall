@@ -2,8 +2,6 @@ package com.example.jdmall01.activity;
 
 import android.os.Bundle;
 import android.os.Message;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -74,6 +72,8 @@ public class LoginActivity extends BaseActivity {
     protected void initUI() {
         mNameEt = findViewById(R.id.name_et);
         mPwdEt = findViewById(R.id.pwd_et);
+        //如果数据库中有数据 --> 数据回显
+        mController.sendAsyncMessage(IdiyMessage.GET_USER_ACTION, 0);
     }
 
     @Override
@@ -82,6 +82,8 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         initUI();
         initController();
+
+
     }
 
     public void loginClick(View v) {
