@@ -1,16 +1,12 @@
 package com.example.jdmall01.controller;
 
 import android.content.Context;
-import android.util.Log;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
-import com.example.jdmall01.activity.LoginActivity;
 import com.example.jdmall01.bean.RResult;
 import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.constant.NetworkConst;
 import com.example.jdmall01.db.UserDao;
-import com.example.jdmall01.listener.IModuleChangeListener;
 import com.example.jdmall01.util.NetworkUtil;
 
 import java.util.HashMap;
@@ -54,6 +50,7 @@ public class UserController extends BaseController {
     public boolean saveUser2Db(String name, String pwd) {
         UserDao dao = new UserDao(mContext);
         dao.clearUsers();
+        //可逆性加密 AES
         return dao.saveUser(name, pwd);
     }
 
