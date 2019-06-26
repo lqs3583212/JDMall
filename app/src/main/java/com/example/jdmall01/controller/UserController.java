@@ -50,7 +50,8 @@ private UserDao mUserDao = new UserDao(mContext);
                 break;
             case IdiyMessage.GET_USER_ACTION:
                 UserDao.UserInfo userInfo =  aquireUser();
-                mListener.onModuleChanged(IdiyMessage.GET_USER_ACTION, userInfo);
+                //可能会报空指针
+                mListener.onModuleChanged(IdiyMessage.GET_USER_ACTION_RESULT, userInfo);
                 break;
         }
     }

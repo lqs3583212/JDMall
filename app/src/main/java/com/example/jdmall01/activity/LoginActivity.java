@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.example.jdmall01.R;
 import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.controller.UserController;
+import com.example.jdmall01.db.UserDao;
 import com.example.jdmall01.util.ActivityUtil;
 
 public class LoginActivity extends BaseActivity {
@@ -25,7 +26,9 @@ public class LoginActivity extends BaseActivity {
                 break;
             case IdiyMessage.SAVE_USERTODB_RESULT:
                 handleSaveUser2Db((boolean) msg.obj);
-//                ActivityUtil.start(this, MainActivity.class,true);
+                break;
+            case IdiyMessage.GET_USER_ACTION_RESULT:
+                handlerGetUser(msg.obj);
                 break;
         }
     }
@@ -59,6 +62,15 @@ public class LoginActivity extends BaseActivity {
         String name = mNameEt.getText().toString();
         String pwd = mPwdEt.getText().toString();
         mController.sendAsyncMessage(IdiyMessage.SAVE_USERTODB, name, pwd);
+
+    }
+
+    private void handlerGetUser(Object c) {
+        if (c != null) {
+            UserDao.UserInfo userInfo = (UserDao.UserInfo) c;
+            mNameEt.setText(userInfo.name);
+            mPwdEt.setText(userInfo.pwd);
+        }
 
     }
 

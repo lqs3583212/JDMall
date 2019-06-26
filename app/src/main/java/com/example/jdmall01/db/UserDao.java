@@ -59,10 +59,8 @@ public class UserDao {
             this.pwd = pwd;
         }
 
-
-
-        }
     }
 }
+
 
 
