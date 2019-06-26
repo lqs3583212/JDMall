@@ -1,6 +1,7 @@
 package com.example.jdmall01.controller;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.example.jdmall01.bean.RResult;
@@ -15,7 +16,7 @@ import java.util.HashMap;
 public class UserController extends BaseController {
 
 
-private UserDao mUserDao = new UserDao(mContext);
+    private UserDao mUserDao = new UserDao(mContext);
 
     public UserController(Context c) {
         super(c);
@@ -46,10 +47,10 @@ private UserDao mUserDao = new UserDao(mContext);
 
             case IdiyMessage.SAVE_USERTODB:
                 boolean saveUser2Db = saveUser2Db((String) values[0], (String) values[1]);
-                mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB_RESULT , saveUser2Db);
+                mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB_RESULT, saveUser2Db);
                 break;
             case IdiyMessage.GET_USER_ACTION:
-                UserDao.UserInfo userInfo =  aquireUser();
+                UserDao.UserInfo userInfo = aquireUser();
                 //可能会报空指针
                 mListener.onModuleChanged(IdiyMessage.GET_USER_ACTION_RESULT, userInfo);
                 break;
@@ -57,8 +58,28 @@ private UserDao mUserDao = new UserDao(mContext);
     }
 
     private UserDao.UserInfo aquireUser() {
-        return mUserDao.aquireLastestUser();
-    }
+        UserDao.UserInfo userInfo = mUserDao.aquireLastestUser();
+//        if (userInfo != null) {
+            try {
+                Log.e("AES","decrypt1");
+                userInfo.name = AESUtils.decrypt(userInfo.name);
+
+                Log.e("AES","decrypt");
+                userInfo.pwd = AESUtils.decrypt(userInfo.pwd);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+//        Log.e("AES",userInfo.name + "," + userInfo.pwd);
+
+            return userInfo;
+
+        }
+//        return null;
+
+
+//    }
 
     private boolean saveUser2Db(String name, String pwd) {
         mUserDao.clearUsers();
