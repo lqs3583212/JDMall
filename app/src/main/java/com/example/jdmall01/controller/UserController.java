@@ -59,27 +59,26 @@ public class UserController extends BaseController {
 
     private UserDao.UserInfo aquireUser() {
         UserDao.UserInfo userInfo = mUserDao.aquireLastestUser();
-//        if (userInfo != null) {
+        if (userInfo != null) {
             try {
-                Log.e("AES","decrypt1");
+                Log.e("AES", "decrypt1");
                 userInfo.name = AESUtils.decrypt(userInfo.name);
-
-                Log.e("AES","decrypt");
+                Log.e("AES", "decrypt");
                 userInfo.pwd = AESUtils.decrypt(userInfo.pwd);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
 
-//        Log.e("AES",userInfo.name + "," + userInfo.pwd);
+            Log.e("AES", userInfo.name + "," + userInfo.pwd);
 
             return userInfo;
 
         }
-//        return null;
+        return null;
 
 
-//    }
+    }
 
     private boolean saveUser2Db(String name, String pwd) {
         mUserDao.clearUsers();
