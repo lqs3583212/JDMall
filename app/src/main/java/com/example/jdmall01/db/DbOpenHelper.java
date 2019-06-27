@@ -3,7 +3,6 @@ package com.example.jdmall01.db;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.provider.BaseColumns;
 
 import com.example.jdmall01.constant.DbConst;
 

@@ -17,7 +17,8 @@ public class UserController extends BaseController {
     private String secretKey = AESUtils.generateKey();
 
 
-    private UserDao mUserDao = new UserDao(mContext);
+
+    private UserDao mUserDao;
 
     public UserController(Context c) {
         super(c);
@@ -48,6 +49,7 @@ public class UserController extends BaseController {
 
             case IdiyMessage.SAVE_USERTODB:
                 boolean saveUser2Db = saveUser2Db((String) values[0], (String) values[1]);
+                Log.e("value0", (String) values[0]);
                 mListener.onModuleChanged(IdiyMessage.SAVE_USERTODB_RESULT, saveUser2Db);
                 break;
             case IdiyMessage.GET_USER_ACTION:
@@ -82,7 +84,7 @@ public class UserController extends BaseController {
     }
 
     private boolean saveUser2Db(String name, String pwd) {
-        mUserDao.clearUsers();
+//        mUserDao.clearUsers();
 
         //可逆性加密 AES
         try {
@@ -91,7 +93,9 @@ public class UserController extends BaseController {
             pwd = AESUtils.encrypt(secretKey, pwd);
             Log.e("AES", "encrypt2");
         } catch (Exception e) {
+            Log.e("encrypt","error");
             e.printStackTrace();
+
         }
         Log.e("AES", "encrypt3");
 

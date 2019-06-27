@@ -2,6 +2,7 @@ package com.example.jdmall01.activity;
 
 import android.os.Bundle;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -38,7 +39,7 @@ public class LoginActivity extends BaseActivity {
 
             tip("密码已保存");
             ActivityUtil.start(this, MainActivity.class,true);
-//            Log.d("debug","baocun");
+            Log.e("debug","baocun");
         } else {
             tip("保存失败");
         }
