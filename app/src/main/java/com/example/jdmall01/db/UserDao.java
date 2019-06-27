@@ -13,6 +13,8 @@ public class UserDao {
 
     private DbOpenHelper mHelper;
 
+//    private String a = "11111";
+
     public UserDao(Context c) {
         mHelper = new DbOpenHelper(c);
     }
@@ -25,6 +27,11 @@ public class UserDao {
         values.put(DbConst._NAME, name);
         values.put(DbConst._PWD, pwd);
         long insertId = db.insert(DbConst.USER_TABLE, null, values);
+//        if (insertId != -1) {
+//            a = "!null";
+//        }
+//
+//        Log.e("AES", a);
 
         return insertId != -1;
 

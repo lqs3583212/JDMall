@@ -16,7 +16,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class AESUtils {
 
     private final static String HEX = "0123456789ABCDEF";
-    private final static String Key = "1111111111111111";
 
 
     //AES是加密方式  CBC是工作模式    PKCS5Padding是填充模式
@@ -32,7 +31,7 @@ public class AESUtils {
     public static String generateKey() {
         try {
             SecureRandom localSecureRandom = SecureRandom.getInstance(SHA1PRNG);
-            byte[] bytes_key = new byte[5];
+            byte[] bytes_key = new byte[16];
             localSecureRandom.nextBytes(bytes_key);
             String str_key = toHex(bytes_key);
             return str_key;
@@ -57,12 +56,12 @@ public class AESUtils {
 
 
     //加密算法
-    public static String encrypt(String cleartext) {
+    public static String encrypt(String key, String cleartext) {
         if (TextUtils.isEmpty(cleartext)) {
             return cleartext;
         }
         try {
-            byte[] result = encrypt(Key, cleartext.getBytes());
+            byte[] result = encrypt(key, cleartext.getBytes());
             return Base64.encodeToString(result, Base64.DEFAULT);
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,8 +69,8 @@ public class AESUtils {
         return null;
     }
 
-    private static byte[] encrypt(String Key, byte[] clear) throws Exception {
-        byte[] raw = getRawKey(Key.getBytes());
+    private static byte[] encrypt(String key, byte[] clear) throws Exception {
+        byte[] raw = getRawKey(key.getBytes());
         SecretKeySpec skeySpec = new SecretKeySpec(raw, AES);
         Cipher cipher = Cipher.getInstance(CBC_PKCS5_PADDING);
         cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(new byte[cipher.getBlockSize()]));
@@ -81,14 +80,14 @@ public class AESUtils {
 
 
     //解密算法
-    public static String decrypt(String encrypted) {
+    public static String decrypt(String key, String encrypted) {
         if (TextUtils.isEmpty(encrypted)) {
             return encrypted;
         }
         try {
 //            byte[] enc = Base64Decoder.decodeToBytes(encrypted);
             byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
-            byte[] result = AESUtils.decrypt(Key, enc);
+            byte[] result = AESUtils.decrypt(key, enc);
             return new String(result);
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,8 +96,8 @@ public class AESUtils {
     }
 
 
-    private static byte[] decrypt(String Key, byte[] encrypted) throws Exception {
-        byte[] raw = getRawKey(Key.getBytes());
+    private static byte[] decrypt(String key, byte[] encrypted) throws Exception {
+        byte[] raw = getRawKey(key.getBytes());
         SecretKeySpec skeySpec = new SecretKeySpec(raw, AES);
         Cipher cipher = Cipher.getInstance(CBC_PKCS5_PADDING);
         cipher.init(Cipher.DECRYPT_MODE, skeySpec, new IvParameterSpec(new byte[cipher.getBlockSize()]));
@@ -110,7 +109,7 @@ public class AESUtils {
         if (buf == null)
             return "";
         StringBuffer result = new StringBuffer(2 * buf.length);
-        for (int i = 0; i < buf.length;) {
+        for (int i = 0; i < buf.length; i++) {
             appendHex(result, buf[i]);
         }
         return result.toString();

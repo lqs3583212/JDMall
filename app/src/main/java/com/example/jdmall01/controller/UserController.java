@@ -14,6 +14,7 @@ import com.example.jdmall01.util.NetworkUtil;
 import java.util.HashMap;
 
 public class UserController extends BaseController {
+    private String secretKey = AESUtils.generateKey();
 
 
     private UserDao mUserDao = new UserDao(mContext);
@@ -62,9 +63,9 @@ public class UserController extends BaseController {
         if (userInfo != null) {
             try {
                 Log.e("AES", "decrypt1");
-                userInfo.name = AESUtils.decrypt(userInfo.name);
+                userInfo.name = AESUtils.decrypt(secretKey, userInfo.name);
                 Log.e("AES", "decrypt");
-                userInfo.pwd = AESUtils.decrypt(userInfo.pwd);
+                userInfo.pwd = AESUtils.decrypt(secretKey, userInfo.pwd);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -85,11 +86,14 @@ public class UserController extends BaseController {
 
         //可逆性加密 AES
         try {
-            name = AESUtils.encrypt(name);
-            pwd = AESUtils.encrypt(pwd);
+            name = AESUtils.encrypt(secretKey, name);
+            Log.e("AES", "encrypt");
+            pwd = AESUtils.encrypt(secretKey, pwd);
+            Log.e("AES", "encrypt2");
         } catch (Exception e) {
             e.printStackTrace();
         }
+        Log.e("AES", "encrypt3");
 
         return mUserDao.saveUser(name, pwd);
     }
