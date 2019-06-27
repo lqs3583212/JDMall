@@ -1,93 +1,120 @@
 package com.example.jdmall01.util;
 
+import android.text.TextUtils;
+import android.util.Base64;
+
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+
 
 public class AESUtils {
 
-    //��Կ
-    private static final String KEY = "1234567891234567";
+    private final static String HEX = "0123456789ABCDEF";
+    private final static String Key = "1111111111111111";
 
-    //���ܷ���
-    public static String encrypt(String src) throws Exception {
-        byte[] rawKey = getRawKey(KEY.getBytes());
-        byte[] result = encrypt(rawKey, src.getBytes());
-        return toHex(result);
-    }
 
-    //�����ܷ���
-    public static String decrypt(String encrypted) throws Exception {
-        byte[] rawKey = getRawKey(KEY.getBytes());
-        byte[] enc = toByte(encrypted);
-        byte[] result = decrypt(rawKey, enc);
-        return new String(result);
-    }
+    //AES是加密方式  CBC是工作模式    PKCS5Padding是填充模式
+    private final static String CBC_PKCS5_PADDING = "AES/CBC/PKCS5Padding";
 
-    private static byte[] getRawKey(byte[] seed) throws Exception {
-        KeyGenerator kgen = KeyGenerator.getInstance("AES");
-        // SHA1PRNG ǿ��������㷨, Ҫ����4.2���ϰ汾�ĵ��÷���
-        SecureRandom sr = null;
-        if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.JELLY_BEAN) {
-            sr = SecureRandom.getInstance("SHA1PRNG");
-        } else {
-            sr = SecureRandom.getInstance("SHA1PRNG");
+    //AES 加密
+    private final static String AES = "AES";
+
+    //SHA1PRNG 强随机种子算法
+    private final static String SHA1PRNG = "SHA1PRNG";
+
+    //生成随机数,动态密钥
+    public static String generateKey() {
+        try {
+            SecureRandom localSecureRandom = SecureRandom.getInstance(SHA1PRNG);
+            byte[] bytes_key = new byte[5];
+            localSecureRandom.nextBytes(bytes_key);
+            String str_key = toHex(bytes_key);
+            return str_key;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
+        return null;
+    }
+
+
+    //处理密钥
+    private static byte[] getRawKey(byte[] seed) throws Exception {
+        KeyGenerator kgen = KeyGenerator.getInstance(AES);
+        SecureRandom sr = null;
+        sr = SecureRandom.getInstance(SHA1PRNG);
         sr.setSeed(seed);
-        kgen.init(256, sr); // 256 bits or 128 bits,192bits
+        kgen.init(128, sr);
         SecretKey skey = kgen.generateKey();
         byte[] raw = skey.getEncoded();
         return raw;
     }
 
-    private static byte[] encrypt(byte[] key, byte[] src) throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-        byte[] encrypted = cipher.doFinal(src);
+
+    //加密算法
+    public static String encrypt(String cleartext) {
+        if (TextUtils.isEmpty(cleartext)) {
+            return cleartext;
+        }
+        try {
+            byte[] result = encrypt(Key, cleartext.getBytes());
+            return Base64.encodeToString(result, Base64.DEFAULT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static byte[] encrypt(String Key, byte[] clear) throws Exception {
+        byte[] raw = getRawKey(Key.getBytes());
+        SecretKeySpec skeySpec = new SecretKeySpec(raw, AES);
+        Cipher cipher = Cipher.getInstance(CBC_PKCS5_PADDING);
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec, new IvParameterSpec(new byte[cipher.getBlockSize()]));
+        byte[] encrypted = cipher.doFinal();
         return encrypted;
     }
 
-    private static byte[] decrypt(byte[] key, byte[] encrypted)
-            throws Exception {
-        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
-        Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
-        cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+
+    //解密算法
+    public static String decrypt(String encrypted) {
+        if (TextUtils.isEmpty(encrypted)) {
+            return encrypted;
+        }
+        try {
+//            byte[] enc = Base64Decoder.decodeToBytes(encrypted);
+            byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
+            byte[] result = AESUtils.decrypt(Key, enc);
+            return new String(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    private static byte[] decrypt(String Key, byte[] encrypted) throws Exception {
+        byte[] raw = getRawKey(Key.getBytes());
+        SecretKeySpec skeySpec = new SecretKeySpec(raw, AES);
+        Cipher cipher = Cipher.getInstance(CBC_PKCS5_PADDING);
+        cipher.init(Cipher.DECRYPT_MODE, skeySpec, new IvParameterSpec(new byte[cipher.getBlockSize()]));
         byte[] decrypted = cipher.doFinal(encrypted);
         return decrypted;
     }
 
-    public static String toHex(String txt) {
-        return toHex(txt.getBytes());
-    }
-
-    public static String fromHex(String hex) {
-        return new String(toByte(hex));
-    }
-
-    public static byte[] toByte(String hexString) {
-        int len = hexString.length() / 2;
-        byte[] result = new byte[len];
-        for (int i = 0; i < len; i++)
-            result[i] = Integer.valueOf(hexString.substring(2 * i, 2 * i + 2),
-                    16).byteValue();
-        return result;
-    }
-
-    public static String toHex(byte[] buf) {
+    private static String toHex(byte[] buf) {
         if (buf == null)
             return "";
         StringBuffer result = new StringBuffer(2 * buf.length);
-        for (int i = 0; i < buf.length; i++) {
+        for (int i = 0; i < buf.length;) {
             appendHex(result, buf[i]);
         }
         return result.toString();
     }
-
-    private final static String HEX = "0123456789ABCDEF";
 
     private static void appendHex(StringBuffer sb, byte b) {
         sb.append(HEX.charAt((b >> 4) & 0x0f)).append(HEX.charAt(b & 0x0f));
