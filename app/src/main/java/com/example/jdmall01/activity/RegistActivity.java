@@ -19,8 +19,8 @@ public class RegistActivity extends BaseActivity implements IModuleChangeListene
     private  EditText mSurePwdEt;
 
     @Override
-    protected void handleMessage(Message msg) {
-        super.handleMessage(msg);
+    protected void handlerMessage(Message msg) {
+        super.handlerMessage(msg);
         switch (msg.what) {
             case REGIST_ACTION_RESULT:
                 handleRegistREsult((RResult)msg.obj);

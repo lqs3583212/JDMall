@@ -18,11 +18,12 @@ public abstract class  BaseActivity extends FragmentActivity implements IModuleC
     protected Handler mHandler = new Handler() {
 //        @Override
         public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-            BaseActivity.this.handleMessage(msg);
+//            super.handlerMessage(msg);
+            BaseActivity.this.handlerMessage(msg);
         }
     };
-    protected void handleMessage(Message msg) {
+
+    protected void handlerMessage(Message msg) {
         //defalut Empty implement
     }
     //初始化控制器

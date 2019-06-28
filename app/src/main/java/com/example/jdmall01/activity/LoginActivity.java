@@ -18,8 +18,8 @@ public class LoginActivity extends BaseActivity {
 
 
     @Override
-    protected void handleMessage(Message msg) {
-        super.handleMessage(msg);
+    protected void handlerMessage(Message msg) {
+        super.handlerMessage(msg);
         switch (msg.what) {
             case IdiyMessage.LOGIN_ACTION_RESULT:
                 handlerLoginResult(msg);
