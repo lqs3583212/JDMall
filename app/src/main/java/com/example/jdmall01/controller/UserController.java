@@ -89,15 +89,15 @@ public class UserController extends BaseController {
         //可逆性加密 AES
         try {
             name = AESUtils.encrypt(secretKey, name);
-            Log.e("AES", "encrypt");
+            Log.e("encryptname",name);
             pwd = AESUtils.encrypt(secretKey, pwd);
-            Log.e("AES", "encrypt2");
+            Log.e("encryptpwd", pwd);
         } catch (Exception e) {
             Log.e("encrypt","error");
             e.printStackTrace();
 
         }
-        Log.e("AES", "encrypt3");
+        Log.e("encrypt", "encryptok");
 
         return mUserDao.saveUser(name, pwd);
     }

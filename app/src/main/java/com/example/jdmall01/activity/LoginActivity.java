@@ -17,7 +17,6 @@ public class LoginActivity extends BaseActivity {
     private EditText mPwdEt;
 
 
-
     @Override
     protected void handleMessage(Message msg) {
         super.handleMessage(msg);
@@ -34,18 +33,26 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    private void handlerGetUser(Object c) {
+        if (c != null) {
+            UserDao.UserInfo userInfo = (UserDao.UserInfo) c;
+            mNameEt.setText(userInfo.name);
+            mPwdEt.setText(userInfo.pwd);
+        }
+
+    }
+
     private void handleSaveUser2Db(boolean ifSuccess) {
         if (ifSuccess) {
 
             tip("密码已保存");
-            ActivityUtil.start(this, MainActivity.class,true);
-            Log.e("debug","baocun");
+            ActivityUtil.start(this, MainActivity.class, true);
+            Log.e("debug", "baocun");
         } else {
             tip("保存失败");
         }
-
-
     }
+
 
     private void handlerLoginResult(Message msg) {
 //        RResult rResult = (RResult) msg.obj;
@@ -62,31 +69,9 @@ public class LoginActivity extends BaseActivity {
 
         String name = mNameEt.getText().toString();
         String pwd = mPwdEt.getText().toString();
+        Log.e("name", name);
         mController.sendAsyncMessage(IdiyMessage.SAVE_USERTODB, name, pwd);
 
-    }
-
-    private void handlerGetUser(Object c) {
-        if (c != null) {
-            UserDao.UserInfo userInfo = (UserDao.UserInfo) c;
-            mNameEt.setText(userInfo.name);
-            mPwdEt.setText(userInfo.pwd);
-        }
-
-    }
-
-    @Override
-    protected void initController() {
-        mController = new UserController(this);
-        mController.setIModuleChangeListener(this);
-    }
-
-    @Override
-    protected void initUI() {
-        mNameEt = findViewById(R.id.name_et);
-        mPwdEt = findViewById(R.id.pwd_et);
-        //如果数据库中有数据 --> 数据回显
-        mController.sendAsyncMessage(IdiyMessage.GET_USER_ACTION, 0);
     }
 
     @Override
@@ -113,8 +98,30 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-
     public void registClick(View v) {
         ActivityUtil.start(this, RegistActivity.class, false);
     }
+
+
+
+    @Override
+    protected void initController() {
+        mController = new UserController(this);
+        mController.setIModuleChangeListener(this);
+    }
+
+    @Override
+    protected void initUI() {
+        mNameEt = findViewById(R.id.name_et);
+        mPwdEt = findViewById(R.id.pwd_et);
+        //如果数据库中有数据 --> 数据回显
+        mController.sendAsyncMessage(IdiyMessage.GET_USER_ACTION, 0);
+    }
 }
+
+
+
+
+
+
+

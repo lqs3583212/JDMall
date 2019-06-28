@@ -1,6 +1,5 @@
 package com.example.jdmall01.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -8,6 +7,7 @@ import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.Window;
 import android.widget.Toast;
+
 import com.example.jdmall01.controller.BaseController;
 import com.example.jdmall01.listener.IModuleChangeListener;
 
@@ -15,6 +15,16 @@ import com.example.jdmall01.listener.IModuleChangeListener;
 public abstract class  BaseActivity extends FragmentActivity implements IModuleChangeListener {
 
     protected BaseController mController;
+    protected Handler mHandler = new Handler() {
+//        @Override
+        public void handleMessage(Message msg) {
+//            super.handleMessage(msg);
+            BaseActivity.this.handleMessage(msg);
+        }
+    };
+    protected void handleMessage(Message msg) {
+        //defalut Empty implement
+    }
     //初始化控制器
     protected  void initController() {
         //default Empty implement
@@ -34,18 +44,6 @@ public abstract class  BaseActivity extends FragmentActivity implements IModuleC
     @Override
     public void onModuleChanged(int action, Object... values) {
         mHandler.obtainMessage(action, values[0]).sendToTarget();
-    }
-
-    protected Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            BaseActivity.this.handleMessage(msg);
-        }
-    };
-
-    protected void handleMessage(Message msg) {
-        //defalut Empty implement
     }
 
 

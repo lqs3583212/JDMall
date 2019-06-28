@@ -80,13 +80,13 @@ public class AESUtils {
 
 
     //解密算法
-    public static String decrypt(String key, String encrypted) {
-        if (TextUtils.isEmpty(encrypted)) {
-            return encrypted;
+    public static String decrypt(String key, String pwd) {
+        if (TextUtils.isEmpty(pwd)) {
+            return pwd;
         }
         try {
 //            byte[] enc = Base64Decoder.decodeToBytes(encrypted);
-            byte[] enc = Base64.decode(encrypted, Base64.DEFAULT);
+            byte[] enc = Base64.decode(pwd, Base64.DEFAULT);
             byte[] result = AESUtils.decrypt(key, enc);
             return new String(result);
         } catch (Exception e) {
