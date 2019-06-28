@@ -56,7 +56,15 @@ public class UserController extends BaseController {
                 //可能会报空指针
                 mListener.onModuleChanged(IdiyMessage.GET_USER_ACTION_RESULT, userInfo);
                 break;
+            case IdiyMessage.CLEAR_USER_ACTION:
+                clearUser();
+                mListener.onModuleChanged(IdiyMessage.GET_USER_ACTION_RESULT, 0);
+                break;
         }
+    }
+
+    private void clearUser() {
+        mUserDao.clearUsers();
     }
 
     private UserDao.UserInfo aquireUser() {

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jdmall01.R;
+import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.controller.UserController;
 
 public class MyJDFragment extends BaseFragment implements View.OnClickListener {
@@ -27,7 +28,7 @@ public class MyJDFragment extends BaseFragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_btn:
-                mController.sendAsyncMessage();
+                mController.sendAsyncMessage(IdiyMessage.CLEAR_USER_ACTION, 0);
                 break;
         }
     }
