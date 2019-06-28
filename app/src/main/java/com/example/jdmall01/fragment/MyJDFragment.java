@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.jdmall01.R;
+import com.example.jdmall01.controller.UserController;
 
 public class MyJDFragment extends BaseFragment implements View.OnClickListener {
 
@@ -18,15 +19,30 @@ public class MyJDFragment extends BaseFragment implements View.OnClickListener {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().findViewById(R.id.logout_btn).setOnClickListener(this);
+        initController();
+        initUI();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.login_btn:
-
+                mController.sendAsyncMessage();
                 break;
         }
     }
+
+    @Override
+    protected void initController() {
+        mController = new UserController(getActivity());
+        mController.setIModuleChangeListener(this);
+    }
+
+    @Override
+    protected void initUI() {
+        getActivity().findViewById(R.id.logout_btn).setOnClickListener(this);
+
+    }
+
+
 }

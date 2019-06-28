@@ -6,8 +6,9 @@ import android.support.v4.app.Fragment;
 
 
 import com.example.jdmall01.controller.BaseController;
+import com.example.jdmall01.listener.IModuleChangeListener;
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment implements IModuleChangeListener {
     protected BaseController mController;
     protected Handler mHandler = new Handler() {
         @Override
@@ -24,5 +25,12 @@ public class BaseFragment extends Fragment {
     //初始化控制器
     protected void initController() {
         //default Empty implement
+    }
+
+    protected abstract void initUI();
+
+    @Override
+    public void onModuleChanged(int action, Object... values) {
+
     }
 }
