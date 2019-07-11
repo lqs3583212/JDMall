@@ -22,7 +22,7 @@ public abstract class BaseFragment extends Fragment implements IModuleChangeList
 
     protected abstract void initUI();
 
-    protected void handleMessage(Message msg) {
+    protected void handlerMessage(Message msg) {
         //defalut Empty implement
     }
 
