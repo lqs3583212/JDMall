@@ -6,7 +6,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.alibaba.fastjson.JSON;
+import com.example.jdmall01.JDApplication;
 import com.example.jdmall01.R;
+import com.example.jdmall01.bean.RLoginResult;
+import com.example.jdmall01.bean.RResult;
 import com.example.jdmall01.constant.IdiyMessage;
 import com.example.jdmall01.controller.UserController;
 import com.example.jdmall01.db.UserDao;
@@ -55,7 +59,7 @@ public class LoginActivity extends BaseActivity {
 
 
     private void handlerLoginResult(Message msg) {
-//        RResult rResult = (RResult) msg.obj;
+        RResult rResult = (RResult) msg.obj;
 //
 //        此处判断石头登陆成功返回空指针,原因未知,为调试方便,暂时假定登陆成功
 //        if (rResult.isSuccess()) {
@@ -72,6 +76,10 @@ public class LoginActivity extends BaseActivity {
         Log.e("name", name);
         mController.sendAsyncMessage(IdiyMessage.SAVE_USERTODB, name, pwd);
 
+        // 将用户信息保存到Application
+        RLoginResult bean = JSON.parseObject(rResult.getResult(), RLoginResult.class);
+//        JDApplication.setRLoginResult(bean);
+        ((JDApplication)getApplication()).setRLoginResult(bean);
     }
 
     @Override

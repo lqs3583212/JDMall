@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:name="com.example.jdmall01.JDApplication"
         android:usesCleartextTraffic="true">
         <activity android:name=".activity.MainActivity"></activity>
         <activity
@@ -22,7 +23,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.BaseActivity" />
+        <!--<activity android:name=".activity.BaseActivity" />-->
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/app_name"

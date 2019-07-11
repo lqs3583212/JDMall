@@ -18,18 +18,17 @@ import com.example.jdmall01.util.ActivityUtil;
 public class MyJDFragment extends BaseFragment implements View.OnClickListener {
 
     private TextView mUserNameTv;
-    private TextView mUserLevelTv;
     private TextView mWaitPayTv;
     private TextView mWaitReciveTv;
 
     @Override
     protected void handlerMessage(Message msg) {
+        super.handlerMessage(msg);
         switch (msg.what) {
             case IdiyMessage.CLEAR_USER_ACTION_RESULT:
                 ActivityUtil.start(getActivity(), LoginActivity.class, true);
                 break;
         }
-
     }
 
     @Override
@@ -64,7 +63,7 @@ public class MyJDFragment extends BaseFragment implements View.OnClickListener {
         getActivity().findViewById(R.id.logout_btn).setOnClickListener(this);
 
         mUserNameTv =(TextView) getActivity().findViewById(R.id.user_name_tv);
-        mUserLevelTv =(TextView) getActivity().findViewById(R.id.user_level_tv);
+        TextView mUserLevelTv = (TextView) getActivity().findViewById(R.id.user_level_tv);
         mWaitPayTv =(TextView) getActivity().findViewById(R.id.wait_pay_tv);
         mWaitReciveTv =(TextView) getActivity().findViewById(R.id.wait_receive_tv);
 
