@@ -78,7 +78,6 @@ public class LoginActivity extends BaseActivity {
 
         // 将用户信息保存到Application
         RLoginResult bean = JSON.parseObject(rResult.getResult(), RLoginResult.class);
-//        JDApplication.setRLoginResult(bean);
         ((JDApplication)getApplication()).setRLoginResult(bean);
     }
 
