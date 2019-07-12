@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.jdmall01.JDApplication;
 import com.example.jdmall01.R;
 import com.example.jdmall01.activity.LoginActivity;
 import com.example.jdmall01.bean.RLoginResult;
